@@ -58,6 +58,12 @@ def is_valid_hostname(hostname):
 
     """
     #   *** YOUR CODE HERE ***
+
+    if (not hostname[0].isalpha()):
+        return False
+
+    
+
     raise_not_defined()
 
 
