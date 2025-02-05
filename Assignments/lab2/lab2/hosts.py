@@ -1,3 +1,20 @@
+"""Checks for valid hostnames and/or websites.
+
+Author: Adrian Bassir
+Class: CSI-275-01
+Assignment: Lab/HW 2 -- Lab 2
+
+Certification of Authenticity:
+I certify that this is entirely my own work, except where I have given
+fully-documented references to the work of others. I understand the definition
+and consequences of plagiarism and acknowledge that the assessor of this
+assignment may, for the purpose of assessing this assignment:
+- Reproduce this assignment and provide a copy to another member of academic
+- staff; and/or Communicate a copy of this assignment to a plagiarism checking
+- service (which may then retain a copy of this assignment on its database for
+- the purpose of future plagiarism checking)
+"""
+
 """Student code for Lab/HW1.
 
     Run python autograder.py
@@ -59,10 +76,25 @@ def is_valid_hostname(hostname):
     """
     #   *** YOUR CODE HERE ***
 
-    if (not hostname[0].isalpha()):
+    lower_hostname = hostname.lower()
+
+    # first letter of the string has to be a letter in the alphabet
+    # only allowed characters are letters, dashes and dots
+
+    if not lower_hostname:
         return False
 
-    
+    if not lower_hostname[0].isalpha():
+        return False
+
+    for char in lower_hostname:
+        if not (char.isalpha() or char.isdigit() or char in '-.'):
+            return False
+
+    return True
+
+
+
 
     raise_not_defined()
 
@@ -150,6 +182,7 @@ class Hosts:
     def contains_entry(self, hostname):
         """Return whether or not a given hostname exists."""
         #   *** YOUR CODE HERE ***
+        return hostname in self.hostnames
         raise_not_defined()
 
     def get_ip(self, hostname):
@@ -159,4 +192,8 @@ class Hosts:
         None is returned.
         """
         #   *** YOUR CODE HERE ***
+        if hostname in self.hostnames:
+            index = self.hostnames.index(hostname)
+            return self.ips[index]
+        return None
         raise_not_defined()
