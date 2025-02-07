@@ -1,5 +1,7 @@
 """Don't forget your docstrings!
 """
+import socket
+
 
 def build_list():
     """Collect input from the user and return it as a list.
@@ -36,9 +38,33 @@ def build_list():
     return unsorted_list
 
 def sort_list(unsorted_list):
-    """Put your docstring here."""
-    # YOUR SOCKET CODE GOES HERE!
-    pass
+    """Sorts a list of numbers by sending it to a remote server.
+
+    Args:
+        unsorted_list (list): A list of numeric values to be sorted.
+
+    Prints:
+        The sorted list received from the server or an error message.
+    """
+    server_ip = "159.203.166.188"
+    server_port = 7778
+    list_str = "LIST " + " ".join(map(str, unsorted_list))
+
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+    try:
+        s.connect((server_ip, server_port))
+
+        s.sendall(list_str.encode('ascii'))
+
+        response = s.recv(1024)
+
+        print(response.decode('ascii'))
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    finally:
+        s.close()
+
 
 def main():
     """Call the build_list and sort_list functions, and print the result."""
